@@ -49,35 +49,64 @@ Node* inorderSucccessor(Node* root){
 }
 Node* deleteFromBST(Node* root, int key){
     //searching
-    if(key < root->data)
-        root->left = deleteFromBST(root->left, key);
-    else if(key > root->data)
+    if(key > root->data)
         root->right = deleteFromBST(root->right, key);
+    else if(key < root->data)
+        root->left = deleteFromBST(root->left, key); 
     else{
-        // 1st case when no sucessors
-        if(root->left == NULL)
-        {
-            //store the right data and remove left then
+        //first case
+        if(root->left == NULL){
             Node* temp = root->right;
             free(root);
             return temp;
-        } 
+        }
+        //second case
         else if(root->right == NULL){
-            //store left data
             Node* temp = root->left;
             free(root);
             return temp;
         }
-        else{
-            //Third case: when target node have successors.
+        //third case: node with two childs
+        else {
             Node* temp = inorderSucccessor(root->right);
             root->data = temp->data;
             root->right = deleteFromBST(root->right, temp->data);
         }
-    }
 
-    return root;
+        return root;
+    }
 }
+// Node* deleteFromBST(Node* root, int key){
+//     //searching
+//     if(key < root->data)
+//         root->left = deleteFromBST(root->left, key);
+//     else if(key > root->data)
+//         root->right = deleteFromBST(root->right, key);
+//     else{
+//         // 1st case when no sucessors
+//         if(root->left == NULL)
+//         {
+//             //store the right data and remove left then
+//             Node* temp = root->right;
+//             free(root);
+//             return temp;
+//         } 
+//         else if(root->right == NULL){
+//             //store left data
+//             Node* temp = root->left;
+//             free(root);
+//             return temp;
+//         }
+//         else{
+//             //Third case: when target node have successors.
+//             Node* temp = inorderSucccessor(root->right);
+//             root->data = temp->data;
+//             root->right = deleteFromBST(root->right, temp->data);
+//         }
+//     }
+
+//     return root;
+// }
 int main(){
     Node* root = NULL;
     root = binarySearchTree(root, 5);
